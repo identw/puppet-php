@@ -126,6 +126,7 @@ class php (
   $fpm_package                                    = undef,
   $fpm_user                                       = $::php::params::fpm_user,
   $fpm_group                                      = $::php::params::fpm_group,
+  $fpm_pool_purge                                 = $::php::params::fpm_pool_purge,
   Boolean $embedded                               = false,
   Boolean $dev                                    = true,
   Boolean $composer                               = true,

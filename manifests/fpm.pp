@@ -53,6 +53,7 @@ class php::fpm (
   String $ensure                = $::php::ensure,
   $user                         = $::php::fpm_user,
   $group                        = $::php::fpm_group,
+  $pool_purge                   = $::php::fpm_pool_purge,
   $service_ensure               = $::php::fpm_service_ensure,
   $service_enable               = $::php::fpm_service_enable,
   $service_name                 = $::php::fpm_service_name,
@@ -85,13 +86,14 @@ class php::fpm (
   }
 
   class { '::php::fpm::config':
-    user      => $user,
-    group     => $group,
-    inifile   => $inifile,
-    settings  => $real_settings,
-    log_owner => $log_owner,
-    log_group => $log_group,
-    require   => Package[$real_package],
+    user       => $user,
+    group      => $group,
+    inifile    => $inifile,
+    settings   => $real_settings,
+    log_owner  => $log_owner,
+    log_group  => $log_group,
+    pool_purge => $pool_purge,
+    require    => Package[$real_package],
   }
   contain '::php::fpm::config'
   contain '::php::fpm::service'
