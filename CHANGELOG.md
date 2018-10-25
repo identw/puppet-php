@@ -1,6 +1,161 @@
 # Changelog
 
-## 2017-08-02 Release [5.0.0]
+All notable changes to this project will be documented in this file.
+Each new release typically also includes the latest modulesync defaults.
+These should not affect the functionality of the module.
+
+## [v6.0.2](https://github.com/voxpupuli/puppet-php/tree/v6.0.2) (2018-10-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v6.0.1...v6.0.2)
+
+**Fixed bugs:**
+
+- allow `latest` for php extensions again [\#485](https://github.com/voxpupuli/puppet-php/pull/485) ([amateo](https://github.com/amateo))
+
+**Closed issues:**
+
+- Ubuntu 18.04 issue just installing [\#475](https://github.com/voxpupuli/puppet-php/issues/475)
+
+**Merged pull requests:**
+
+- Remove readable permissions for others on fpm pool config file [\#484](https://github.com/voxpupuli/puppet-php/pull/484) ([l-lotz](https://github.com/l-lotz))
+
+## [v6.0.1](https://github.com/voxpupuli/puppet-php/tree/v6.0.1) (2018-10-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v6.0.0...v6.0.1)
+
+**Fixed bugs:**
+
+- Fix enable extension when there is no module associated [\#479](https://github.com/voxpupuli/puppet-php/pull/479) ([amateo](https://github.com/amateo))
+- Remove config when module is ensured to absent [\#478](https://github.com/voxpupuli/puppet-php/pull/478) ([amateo](https://github.com/amateo))
+
+**Closed issues:**
+
+- "php::manage\_repos: true" causes failure on Ubuntu 18.04, needs newer puppetlabs-apt version\(\>=5.0.0\) [\#467](https://github.com/voxpupuli/puppet-php/issues/467)
+
+**Merged pull requests:**
+
+- modulesync 2.1.0 and allow puppet 6.x [\#481](https://github.com/voxpupuli/puppet-php/pull/481) ([bastelfreak](https://github.com/bastelfreak))
+- Add acceptance tests for system php with extensions [\#476](https://github.com/voxpupuli/puppet-php/pull/476) ([bastelfreak](https://github.com/bastelfreak))
+- Allow puppetlabs/stdlib 5.x and puppetlabs/apt 6.x [\#472](https://github.com/voxpupuli/puppet-php/pull/472) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v6.0.0](https://github.com/voxpupuli/puppet-php/tree/v6.0.0) (2018-07-29)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v5.3.0...v6.0.0)
+
+**Breaking changes:**
+
+- Tests failing under debian8 [\#433](https://github.com/voxpupuli/puppet-php/issues/433)
+- fixed hiera merge bug [\#435](https://github.com/voxpupuli/puppet-php/pull/435) ([c33s](https://github.com/c33s))
+
+**Implemented enhancements:**
+
+- Compatibility with Software collections \(SCL\) [\#451](https://github.com/voxpupuli/puppet-php/pull/451) ([oranenj](https://github.com/oranenj))
+- Add Debian 9 support [\#440](https://github.com/voxpupuli/puppet-php/pull/440) ([SimonHoenscheid](https://github.com/SimonHoenscheid))
+- Add initial ubuntu 18.04 support [\#428](https://github.com/voxpupuli/puppet-php/pull/428) ([jkroepke](https://github.com/jkroepke))
+
+**Fixed bugs:**
+
+- php.ini not updated [\#422](https://github.com/voxpupuli/puppet-php/issues/422)
+- Error: Could not upgrade module 'puppet-php' \(v4.0.0 -\> v5.0.0\) [\#378](https://github.com/voxpupuli/puppet-php/issues/378)
+- Fix paths for phpunit on FreeBSD [\#291](https://github.com/voxpupuli/puppet-php/pull/291) ([bitnexus](https://github.com/bitnexus))
+
+**Closed issues:**
+
+- Debian 9 \(Stretch\) support [\#439](https://github.com/voxpupuli/puppet-php/issues/439)
+- Repository class switch failing on Ubuntu [\#392](https://github.com/voxpupuli/puppet-php/issues/392)
+- Next stable release? [\#352](https://github.com/voxpupuli/puppet-php/issues/352)
+- PHP extensions loaded twice [\#341](https://github.com/voxpupuli/puppet-php/issues/341)
+- PECL/Extension checks for beta packages [\#73](https://github.com/voxpupuli/puppet-php/issues/73)
+
+**Merged pull requests:**
+
+- Update README.md with working RHSCL example. [\#463](https://github.com/voxpupuli/puppet-php/pull/463) ([Tamerz](https://github.com/Tamerz))
+- enable ubuntu 18.04 acceptance tests [\#462](https://github.com/voxpupuli/puppet-php/pull/462) ([bastelfreak](https://github.com/bastelfreak))
+- drop EOL OSs; fix puppet version range [\#453](https://github.com/voxpupuli/puppet-php/pull/453) ([bastelfreak](https://github.com/bastelfreak))
+- Rely on beaker-hostgenerator for docker nodesets [\#452](https://github.com/voxpupuli/puppet-php/pull/452) ([ekohl](https://github.com/ekohl))
+- mark private classes with assert\_private\(\) [\#447](https://github.com/voxpupuli/puppet-php/pull/447) ([bastelfreak](https://github.com/bastelfreak))
+- migrate vars from topscope to relative scope [\#444](https://github.com/voxpupuli/puppet-php/pull/444) ([bastelfreak](https://github.com/bastelfreak))
+- bump puppet to latest supported version 4.10.0 [\#443](https://github.com/voxpupuli/puppet-php/pull/443) ([bastelfreak](https://github.com/bastelfreak))
+- Update puppet/archive dependency [\#438](https://github.com/voxpupuli/puppet-php/pull/438) ([marknl](https://github.com/marknl))
+- switch the dotdeb repo url to https [\#431](https://github.com/voxpupuli/puppet-php/pull/431) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v5.3.0](https://github.com/voxpupuli/puppet-php/tree/v5.3.0) (2018-03-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v5.2.0...v5.3.0)
+
+**Implemented enhancements:**
+
+- mark Ubuntu 16.04 as supported and fix its tests [\#221](https://github.com/voxpupuli/puppet-php/issues/221)
+- Using the new facts hash instead of the global var in repo/debian.pp [\#425](https://github.com/voxpupuli/puppet-php/pull/425) ([c33s](https://github.com/c33s))
+- Add Acceptance tests [\#414](https://github.com/voxpupuli/puppet-php/pull/414) ([bastelfreak](https://github.com/bastelfreak))
+
+**Fixed bugs:**
+
+- Fix Archlinux support [\#423](https://github.com/voxpupuli/puppet-php/pull/423) ([bastelfreak](https://github.com/bastelfreak))
+- Fix wrongly named parameters for apt::source/key [\#420](https://github.com/voxpupuli/puppet-php/pull/420) ([bitcrush](https://github.com/bitcrush))
+- manage software-properties-common on ubuntu [\#419](https://github.com/voxpupuli/puppet-php/pull/419) ([bastelfreak](https://github.com/bastelfreak))
+
+**Merged pull requests:**
+
+- add examples for php-fpm/nginx [\#424](https://github.com/voxpupuli/puppet-php/pull/424) ([bastelfreak](https://github.com/bastelfreak))
+- add tests for php5.6 [\#418](https://github.com/voxpupuli/puppet-php/pull/418) ([bastelfreak](https://github.com/bastelfreak))
+
+## [v5.2.0](https://github.com/voxpupuli/puppet-php/tree/v5.2.0) (2018-02-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v5.1.0...v5.2.0)
+
+**Implemented enhancements:**
+
+- add ubuntu 16.04 support [\#412](https://github.com/voxpupuli/puppet-php/pull/412) ([bastelfreak](https://github.com/bastelfreak))
+- Add PHP 7.1 support on Debian [\#293](https://github.com/voxpupuli/puppet-php/pull/293) ([fstr](https://github.com/fstr))
+
+**Fixed bugs:**
+
+- Auto\_update not idempotent [\#402](https://github.com/voxpupuli/puppet-php/issues/402)
+- use correct require arguments [\#415](https://github.com/voxpupuli/puppet-php/pull/415) ([bastelfreak](https://github.com/bastelfreak))
+- fix composer auto\_update idempotency in case no update is available [\#408](https://github.com/voxpupuli/puppet-php/pull/408) ([joekohlsdorf](https://github.com/joekohlsdorf))
+- Fixing wrong pear package name in Amazon Linux [\#399](https://github.com/voxpupuli/puppet-php/pull/399) ([gdurandvadas](https://github.com/gdurandvadas))
+
+**Closed issues:**
+
+- Upgrade to work with Puppet5 [\#406](https://github.com/voxpupuli/puppet-php/issues/406)
+- php 7.2 + ubuntu 16.04 - pdo-mysql extension not installing correctly [\#405](https://github.com/voxpupuli/puppet-php/issues/405)
+- config\_root parameter does nothing on RHEL7 [\#397](https://github.com/voxpupuli/puppet-php/issues/397)
+
+**Merged pull requests:**
+
+- Deprecate hiera\_hash functions [\#410](https://github.com/voxpupuli/puppet-php/pull/410) ([minorOffense](https://github.com/minorOffense))
+- mark Puppet 5 as supported [\#407](https://github.com/voxpupuli/puppet-php/pull/407) ([joekohlsdorf](https://github.com/joekohlsdorf))
+- Change default RedHat params to use config\_root [\#398](https://github.com/voxpupuli/puppet-php/pull/398) ([DALUofM](https://github.com/DALUofM))
+
+## [v5.1.0](https://github.com/voxpupuli/puppet-php/tree/v5.1.0) (2017-11-10)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-php/compare/v5.0.0...v5.1.0)
+
+**Fixed bugs:**
+
+- Fix syntax issues with data types [\#385](https://github.com/voxpupuli/puppet-php/pull/385) ([craigwatson](https://github.com/craigwatson))
+- fix ubuntu 17.04 version for php7 [\#383](https://github.com/voxpupuli/puppet-php/pull/383) ([arudat](https://github.com/arudat))
+- Fix OS fact comparison for Ubuntu 12 and 14 [\#375](https://github.com/voxpupuli/puppet-php/pull/375) ([dbeckham](https://github.com/dbeckham))
+- Fix OS facts usage when selecting repo class for Ubuntu systems [\#374](https://github.com/voxpupuli/puppet-php/pull/374) ([dbeckham](https://github.com/dbeckham))
+- Confine pecl provider to where pear command is available [\#364](https://github.com/voxpupuli/puppet-php/pull/364) ([walkamongus](https://github.com/walkamongus))
+- fix default value of php::fpm::pool::access\_log\_format [\#361](https://github.com/voxpupuli/puppet-php/pull/361) ([lesinigo](https://github.com/lesinigo))
+
+**Closed issues:**
+
+- Debian repository classes are being selected on Ubuntu systems [\#373](https://github.com/voxpupuli/puppet-php/issues/373)
+- Changes in \#357 break Ubuntu version dependent resources [\#372](https://github.com/voxpupuli/puppet-php/issues/372)
+
+**Merged pull requests:**
+
+- Proposed fix for failing parallel spec tests [\#386](https://github.com/voxpupuli/puppet-php/pull/386) ([wyardley](https://github.com/wyardley))
+- update dependencies in metadata [\#379](https://github.com/voxpupuli/puppet-php/pull/379) ([mmoll](https://github.com/mmoll))
+- Bump metadata.json version to 5.0.1-rc [\#377](https://github.com/voxpupuli/puppet-php/pull/377) ([dhollinger](https://github.com/dhollinger))
+- bump dep on puppet/archive to '\< 3.0.0' [\#376](https://github.com/voxpupuli/puppet-php/pull/376) ([costela](https://github.com/costela))
+- Add missing php-fpm user and group class param docs [\#346](https://github.com/voxpupuli/puppet-php/pull/346) ([dbeckham](https://github.com/dbeckham))
+
+## [v5.0.0](https://github.com/voxpupuli/puppet-php/tree/v5.0.0) (2017-08-07)
 ### Summary
 This backwards-incompatible release drops puppet 3, PHP 5.5 on Ubuntu, and the deprecated `php::extension` parameter `pecl_source`. It improves much of the internal code quality, and adds several useful features the most interesting of which is probably the `php::extension` parameter `ini_prefix`.
 
@@ -222,3 +377,6 @@ Initial release
 
 [4.1.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/olivierlacan/keep-a-changelog/compare/v3.4.2...v4.0.0
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*

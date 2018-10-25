@@ -20,8 +20,11 @@
 # [*dotdeb*]
 #   Enable special dotdeb handling
 #
+# [*sury*]
+#   Enable special sury handling
+#
 class php::repo::debian(
-  $location     = 'http://packages.dotdeb.org',
+  $location     = 'https://packages.dotdeb.org',
   $release      = 'wheezy-php56',
   $repos        = 'all',
   $include_src  = false,
@@ -30,11 +33,10 @@ class php::repo::debian(
     'source' => 'http://www.dotdeb.org/dotdeb.gpg',
   },
   $dotdeb       = true,
+  $sury         = true,
 ) {
 
-  if $caller_module_name != $module_name {
-    warning('php::repo::debian is private')
-  }
+  assert_private()
 
   include '::apt'
 
@@ -67,6 +69,31 @@ class php::repo::debian(
           'deb' => true,
         },
       }
+    }
+  }
+
+  if ($sury and $php::globals::php_version == '7.1') {
+    # Required packages for PHP 7.1 repository
+    ensure_packages(['lsb-release', 'ca-certificates'], {'ensure' => 'present'})
+
+    # Add PHP 7.1 key + repository
+    apt::key { 'php::repo::debian-php71':
+      id     => 'DF3D585DB8F0EB658690A554AC0E47584A7A714D',
+      source => 'https://packages.sury.org/php/apt.gpg',
+    }
+
+    ::apt::source { 'source_php_71':
+      location => 'https://packages.sury.org/php/',
+      release  => $facts['os']['distro']['codename'],
+      repos    => 'main',
+      include  => {
+        'src' => $include_src,
+        'deb' => true,
+      },
+      require  => [
+        Apt::Key['php::repo::debian-php71'],
+        Package['apt-transport-https', 'lsb-release', 'ca-certificates']
+      ],
     }
   }
 }

@@ -2,6 +2,12 @@
 #
 # === Parameters
 #
+# [*user*]
+#   The user that php-fpm should run as
+#
+# [*group*]
+#   The group that php-fpm should run as
+#
 # [*service_enable*]
 #   Enable/disable FPM service
 #
@@ -44,21 +50,21 @@
 #   Defaults is empty hash.
 #
 class php::fpm (
-  String $ensure                = $::php::ensure,
-  $user                         = $::php::fpm_user,
-  $group                        = $::php::fpm_group,
-  $pool_purge                   = $::php::fpm_pool_purge,
-  $service_ensure               = $::php::fpm_service_ensure,
-  $service_enable               = $::php::fpm_service_enable,
-  $service_name                 = $::php::fpm_service_name,
-  $service_provider             = $::php::fpm_service_provider,
-  String $package               = $::php::real_fpm_package,
-  Stdlib::Absolutepath $inifile = $::php::fpm_inifile,
-  Hash $settings                = $::php::real_settings,
-  $global_pool_settings         = $::php::real_fpm_global_pool_settings,
-  Hash $pools                   = $::php::real_fpm_pools,
-  $log_owner                    = $::php::log_owner,
-  $log_group                    = $::php::log_group,
+  String $ensure                = $php::ensure,
+  $user                         = $php::fpm_user,
+  $group                        = $php::fpm_group,
+  $pool_purge                   = $php::fpm_pool_purge,
+  $service_ensure               = $php::fpm_service_ensure,
+  $service_enable               = $php::fpm_service_enable,
+  $service_name                 = $php::fpm_service_name,
+  $service_provider             = $php::fpm_service_provider,
+  String $package               = $php::real_fpm_package,
+  Stdlib::Absolutepath $inifile = $php::fpm_inifile,
+  Hash $settings                = $php::real_settings,
+  $global_pool_settings         = $php::real_fpm_global_pool_settings,
+  Hash $pools                   = $php::real_fpm_pools,
+  $log_owner                    = $php::log_owner,
+  $log_group                    = $php::log_group,
 ) {
 
   if ! defined(Class['php']) {
@@ -76,21 +82,22 @@ class php::fpm (
 
   package { $real_package:
     ensure  => $ensure,
-    require => Class['::php::packages'],
+    require => Class['php::packages'],
   }
 
-  class { '::php::fpm::config':
-    user       => $user,
-    group      => $group,
-    inifile    => $inifile,
-    settings   => $real_settings,
-    log_owner  => $log_owner,
-    log_group  => $log_group,
+  class { 'php::fpm::config':
+    user      => $user,
+    group     => $group,
+    inifile   => $inifile,
+    settings  => $real_settings,
+    log_owner => $log_owner,
+    log_group => $log_group,
     pool_purge => $pool_purge,
-    require    => Package[$real_package],
+    require   => Package[$real_package],
   }
-  contain '::php::fpm::config'
-  contain '::php::fpm::service'
+
+  contain 'php::fpm::config'
+  contain 'php::fpm::service'
 
   Class['php::fpm::config'] ~> Class['php::fpm::service']
 

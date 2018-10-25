@@ -42,6 +42,12 @@
 # [*fpm_package*]
 #   Name of fpm package to install
 #
+# [*fpm_user*]
+#   The user that php-fpm should run as
+#
+# [*fpm_group*]
+#   The group that php-fpm should run as
+#
 # [*dev*]
 #   Install php header files, needed to install pecl modules
 #
@@ -107,63 +113,56 @@
 # [*settings*]
 #
 class php (
-  String $ensure                                  = $::php::params::ensure,
-  Boolean $manage_repos                           = $::php::params::manage_repos,
+  String $ensure                                  = $php::params::ensure,
+  Boolean $manage_repos                           = $php::params::manage_repos,
   Boolean $fpm                                    = true,
-  $fpm_service_enable                             = $::php::params::fpm_service_enable,
-  $fpm_service_ensure                             = $::php::params::fpm_service_ensure,
-  $fpm_service_name                               = $::php::params::fpm_service_name,
+  $fpm_service_enable                             = $php::params::fpm_service_enable,
+  $fpm_service_ensure                             = $php::params::fpm_service_ensure,
+  $fpm_service_name                               = $php::params::fpm_service_name,
   $fpm_service_provider                           = undef,
   Hash $fpm_pools                                 = { 'www' => {} },
   Hash $fpm_global_pool_settings                  = {},
-  $fpm_inifile                                    = $::php::params::fpm_inifile,
+  $fpm_inifile                                    = $php::params::fpm_inifile,
   $fpm_package                                    = undef,
-  $fpm_user                                       = $::php::params::fpm_user,
-  $fpm_group                                      = $::php::params::fpm_group,
-  $fpm_pool_purge                                 = $::php::params::fpm_pool_purge,
+  $fpm_user                                       = $php::params::fpm_user,
+  $fpm_group                                      = $php::params::fpm_group,
+  $fpm_pool_purge                                 = $php::params::fpm_pool_purge,
   Boolean $embedded                               = false,
   Boolean $dev                                    = true,
   Boolean $composer                               = true,
   Boolean $pear                                   = true,
-  String $pear_ensure                             = $::php::params::pear_ensure,
+  String $pear_ensure                             = $php::params::pear_ensure,
   Boolean $phpunit                                = false,
   Boolean $apache_config                          = false,
   $proxy_type                                     = undef,
   $proxy_server                                   = undef,
   Hash $extensions                                = {},
   Hash $settings                                  = {},
-  $package_prefix                                 = $::php::params::package_prefix,
-  Stdlib::Absolutepath $config_root_ini           = $::php::params::config_root_ini,
-  Stdlib::Absolutepath $config_root_inifile       = $::php::params::config_root_inifile,
-  Optional[Stdlib::Absolutepath] $ext_tool_enable = $::php::params::ext_tool_enable,
-  Optional[Stdlib::Absolutepath] $ext_tool_query  = $::php::params::ext_tool_query,
-  Boolean $ext_tool_enabled                       = $::php::params::ext_tool_enabled,
-  String $log_owner                               = $::php::params::fpm_user,
-  String $log_group                               = $::php::params::fpm_group,
-) inherits ::php::params {
+  $package_prefix                                 = $php::params::package_prefix,
+  Stdlib::Absolutepath $config_root_ini           = $php::params::config_root_ini,
+  Stdlib::Absolutepath $config_root_inifile       = $php::params::config_root_inifile,
+  Optional[Stdlib::Absolutepath] $ext_tool_enable = $php::params::ext_tool_enable,
+  Optional[Stdlib::Absolutepath] $ext_tool_query  = $php::params::ext_tool_query,
+  Boolean $ext_tool_enabled                       = $php::params::ext_tool_enabled,
+  String $log_owner                               = $php::params::fpm_user,
+  String $log_group                               = $php::params::fpm_group,
+) inherits php::params {
 
   $real_fpm_package = pick($fpm_package, "${package_prefix}${::php::params::fpm_package_suffix}")
 
-  # Deep merge global php settings
-  $real_settings = deep_merge($settings, hiera_hash('php::settings', {}))
-
-  # Deep merge global php extensions
-  $real_extensions = deep_merge($extensions, hiera_hash('php::extensions', {}))
-
-  # Deep merge fpm_pools
-  $real_fpm_pools = deep_merge($fpm_pools, hiera_hash('php::fpm_pools', {}))
-
-  # Deep merge fpm_global_pool_settings
-  $real_fpm_global_pool_settings = deep_merge($fpm_global_pool_settings, hiera_hash('php::fpm_global_pool_settings', {}))
+  $real_settings = $settings
+  $real_extensions = $extensions
+  $real_fpm_pools = $fpm_pools
+  $real_fpm_global_pool_settings = $fpm_global_pool_settings
 
   if $manage_repos {
-    class { '::php::repo': }
+    class { 'php::repo': }
     -> Anchor['php::begin']
   }
 
   anchor { 'php::begin': }
-    -> class { '::php::packages': }
-    -> class { '::php::cli':
+    -> class { 'php::packages': }
+    -> class { 'php::cli':
       settings => $real_settings,
     }
   -> anchor { 'php::end': }
@@ -171,13 +170,13 @@ class php (
   # Configure global PHP settings in php.ini
   if $facts['os']['family'] != 'Debian' {
     Class['php::packages']
-    -> class {'::php::global':
+    -> class {'php::global':
       settings => $real_settings,
     }
     -> Anchor['php::end']
   }
 
-  if $fpm { contain '::php::fpm' }
+  if $fpm { contain 'php::fpm' }
   if $embedded {
     if $facts['os']['family'] == 'RedHat' and $fpm {
       # Both fpm and embeded SAPIs are using same php.ini
@@ -185,19 +184,19 @@ class php (
     }
 
     Anchor['php::begin']
-      -> class { '::php::embedded':
+      -> class { 'php::embedded':
         settings => $real_settings,
       }
     -> Anchor['php::end']
   }
   if $dev {
     Anchor['php::begin']
-      -> class { '::php::dev': }
+      -> class { 'php::dev': }
     -> Anchor['php::end']
   }
   if $composer {
     Anchor['php::begin']
-      -> class { '::php::composer':
+      -> class { 'php::composer':
         proxy_type   => $proxy_type,
         proxy_server => $proxy_server,
       }
@@ -205,36 +204,36 @@ class php (
   }
   if $pear {
     Anchor['php::begin']
-      -> class { '::php::pear':
+      -> class { 'php::pear':
         ensure => $pear_ensure,
       }
     -> Anchor['php::end']
   }
   if $phpunit {
     Anchor['php::begin']
-      -> class { '::php::phpunit': }
+      -> class { 'php::phpunit': }
     -> Anchor['php::end']
   }
   if $apache_config {
     Anchor['php::begin']
-      -> class { '::php::apache_config':
+      -> class { 'php::apache_config':
         settings => $real_settings,
       }
     -> Anchor['php::end']
   }
 
-  create_resources('::php::extension', $real_extensions, {
-    require => Class['::php::cli'],
+  create_resources('php::extension', $real_extensions, {
+    require => Class['php::cli'],
     before  => Anchor['php::end']
   })
 
   # On FreeBSD purge the system-wide extensions.ini. It is going
   # to be replaced with per-module configuration files.
-  if $::osfamily == 'FreeBSD' {
+  if $facts['os']['family'] == 'FreeBSD' {
     # Purge the system-wide extensions.ini
     file { '/usr/local/etc/php/extensions.ini':
       ensure  => absent,
-      require => Class['::php::packages'],
+      require => Class['php::packages'],
     }
   }
 }

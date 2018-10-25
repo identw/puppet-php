@@ -6,18 +6,31 @@ describe 'php::extension' do
       let :facts do
         facts
       end
-
       let(:pre_condition) { 'include php' }
 
       unless facts[:osfamily] == 'Suse' || facts[:osfamily] == 'FreeBSD' # FIXME: something is wrong on these
-        etcdir = case facts[:osfamily]
-                 when 'Debian'
-                   '/etc/php5/mods-available'
-                 when 'Archlinux'
-                   '/etc/php/conf.d'
-                 else
-                   '/etc/php.d'
-                 end
+        etcdir =  case facts[:os]['name']
+                  when 'Debian'
+                    case facts[:os]['release']['major']
+                    when '9'
+                      '/etc/php/7.0/mods-available'
+                    else
+                      '/etc/php5/mods-available'
+                    end
+                  when 'Ubuntu'
+                    case facts[:os]['release']['major']
+                    when '18.04'
+                      '/etc/php/7.2/mods-available'
+                    when '16.04'
+                      '/etc/php/7.0/mods-available'
+                    else
+                      '/etc/php5/mods-available'
+                    end
+                  when 'Archlinux'
+                    '/etc/php/conf.d'
+                  else
+                    '/etc/php.d'
+                  end
 
         context 'installation from repository' do
           let(:title) { 'json' }
@@ -180,6 +193,9 @@ describe 'php::extension' do
             let(:title) { 'xdebug' }
 
             it { is_expected.to contain_php__config('xdebug').with_file("#{etcdir}/xdebug.ini") }
+
+            # note to consider: As of PHP 5.2.0, the JSON extension is bundled and compiled into PHP by default
+            # http://php.net/manual/en/json.installation.php
             context 'pecl installation' do
               let(:title) { 'json' }
               let(:params) do
